@@ -107,13 +107,13 @@ export default function LandingPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/portal/login"
-            className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
+            className="px-3 py-2 text-xs md:text-sm text-text-secondary hover:text-text-primary transition-colors whitespace-nowrap"
           >
             Employee Portal
           </Link>
           <Link
             href="/admin/login"
-            className="px-5 py-2.5 text-sm border border-border rounded-xl text-text-primary hover:bg-surface transition-all"
+            className="px-3 md:px-5 py-2 md:py-2.5 text-xs md:text-sm border border-border rounded-xl text-text-primary hover:bg-surface transition-all whitespace-nowrap"
           >
             Manager Login
           </Link>
