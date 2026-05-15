@@ -178,7 +178,7 @@ export default function AdminDashboardPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((card) => (
-          <div key={card.label} className="stat-card relative w-full animate-slide-up">
+          <div key={card.label} className="stat-card relative w-full overflow-visible animate-slide-up">
             <div className="flex items-center justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-sm text-text-secondary truncate">{card.label}</p>
@@ -217,101 +217,162 @@ export default function AdminDashboardPage() {
             <p className="text-text-secondary">No pending applications</p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border bg-background/50">
-                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    Employee
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    Designation
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    Department
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    AI Score
-                  </th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    Applied
-                  </th>
-                  <th className="text-right px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {pendingEmployees.map((emp) => (
-                  <tr key={emp.id} className="table-row">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
-                          {emp.photo_url ? (
-                            <img
-                              src={emp.photo_url}
-                              alt={emp.full_name}
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <span className="text-sm font-bold text-primary">
-                              {emp.full_name.charAt(0)}
-                            </span>
-                          )}
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-text-primary">{emp.full_name}</p>
-                          <p className="text-xs text-text-secondary">{emp.email}</p>
-                        </div>
+          <>
+            {/* Mobile View */}
+            <div className="block md:hidden divide-y divide-border">
+              {pendingEmployees.map((emp) => (
+                <div key={emp.id} className="p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                        {emp.photo_url ? (
+                          <img src={emp.photo_url} alt={emp.full_name} className="w-full h-full object-cover" />
+                        ) : (
+                          <span className="text-sm font-bold text-primary">{emp.full_name.charAt(0)}</span>
+                        )}
                       </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">{emp.designation}</td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">{emp.department}</td>
-                    <td className="px-6 py-4">
-                      <span
-                        className={`text-sm font-semibold ${
-                          (emp.ai_validation_score || 0) >= 70
-                            ? 'text-success'
-                            : (emp.ai_validation_score || 0) >= 40
-                            ? 'text-warning'
-                            : 'text-danger'
-                        }`}
-                      >
-                        {emp.ai_validation_score || '—'}/100
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-text-secondary">
-                      {formatDate(emp.created_at)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        <button
-                          onClick={() => handleApprove(emp.id)}
-                          disabled={actionLoading === emp.id}
-                          className="p-2 rounded-lg bg-success/10 text-success hover:bg-success/20 transition-colors"
-                          title="Approve"
-                        >
-                          {actionLoading === emp.id ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : (
-                            <Check className="w-4 h-4" />
-                          )}
-                        </button>
-                        <button
-                          onClick={() => handleDecline(emp.id)}
-                          disabled={actionLoading === emp.id}
-                          className="p-2 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition-colors"
-                          title="Decline"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
+                      <div>
+                        <p className="text-sm font-medium text-text-primary">{emp.full_name}</p>
+                        <p className="text-xs text-text-secondary">{emp.email}</p>
                       </div>
-                    </td>
+                    </div>
+                    <span className={`text-sm font-semibold ${(emp.ai_validation_score || 0) >= 70 ? 'text-success' : (emp.ai_validation_score || 0) >= 40 ? 'text-warning' : 'text-danger'}`}>
+                      {emp.ai_validation_score || '—'}/100
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div className="bg-background rounded-lg p-2 border border-border">
+                      <p className="text-text-secondary mb-0.5">Designation</p>
+                      <p className="text-text-primary font-medium">{emp.designation}</p>
+                    </div>
+                    <div className="bg-background rounded-lg p-2 border border-border">
+                      <p className="text-text-secondary mb-0.5">Department</p>
+                      <p className="text-text-primary font-medium">{emp.department}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleApprove(emp.id)}
+                      disabled={actionLoading === emp.id}
+                      className="flex-1 py-2 rounded-lg bg-success/10 text-success hover:bg-success/20 transition-colors text-xs font-medium flex items-center justify-center gap-1"
+                    >
+                      {actionLoading === emp.id ? (
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <Check className="w-3.5 h-3.5" />
+                      )}
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleDecline(emp.id)}
+                      disabled={actionLoading === emp.id}
+                      className="flex-1 py-2 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition-colors text-xs font-medium flex items-center justify-center gap-1"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                      Decline
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop View */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-border bg-background/50">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      Employee
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      Designation
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      Department
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      AI Score
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      Applied
+                    </th>
+                    <th className="text-right px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {pendingEmployees.map((emp) => (
+                    <tr key={emp.id} className="table-row">
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                            {emp.photo_url ? (
+                              <img
+                                src={emp.photo_url}
+                                alt={emp.full_name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <span className="text-sm font-bold text-primary">
+                                {emp.full_name.charAt(0)}
+                              </span>
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-text-primary">{emp.full_name}</p>
+                            <p className="text-xs text-text-secondary">{emp.email}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{emp.designation}</td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">{emp.department}</td>
+                      <td className="px-6 py-4">
+                        <span
+                          className={`text-sm font-semibold ${
+                            (emp.ai_validation_score || 0) >= 70
+                              ? 'text-success'
+                              : (emp.ai_validation_score || 0) >= 40
+                              ? 'text-warning'
+                              : 'text-danger'
+                          }`}
+                        >
+                          {emp.ai_validation_score || '—'}/100
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-text-secondary">
+                        {formatDate(emp.created_at)}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-end gap-2">
+                          <button
+                            onClick={() => handleApprove(emp.id)}
+                            disabled={actionLoading === emp.id}
+                            className="p-2 rounded-lg bg-success/10 text-success hover:bg-success/20 transition-colors"
+                            title="Approve"
+                          >
+                            {actionLoading === emp.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Check className="w-4 h-4" />
+                            )}
+                          </button>
+                          <button
+                            onClick={() => handleDecline(emp.id)}
+                            disabled={actionLoading === emp.id}
+                            className="p-2 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition-colors"
+                            title="Decline"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
     </div>
