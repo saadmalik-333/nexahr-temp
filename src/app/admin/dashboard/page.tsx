@@ -178,15 +178,15 @@ export default function AdminDashboardPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {statCards.map((card) => (
-          <div key={card.label} className="stat-card relative overflow-hidden animate-slide-up">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-text-secondary">{card.label}</p>
-                <p className="text-3xl font-heading font-bold text-text-primary mt-1">
+          <div key={card.label} className="stat-card relative w-full animate-slide-up">
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm text-text-secondary truncate">{card.label}</p>
+                <p className="text-3xl font-heading font-bold text-text-primary mt-1 truncate">
                   {card.value}
                 </p>
               </div>
-              <div className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center`}>
+              <div className={`w-12 h-12 rounded-xl ${card.bg} flex items-center justify-center flex-shrink-0`}>
                 <card.icon className={`w-6 h-6 ${card.color}`} />
               </div>
             </div>
