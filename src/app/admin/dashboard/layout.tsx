@@ -102,14 +102,14 @@ export default function AdminDashboardLayout({
       {/* Main Content */}
       <main className="flex-1 min-h-screen">
         {/* Top bar for mobile */}
-        <div className="lg:hidden flex items-center justify-between px-4 py-4 border-b border-border bg-surface">
+        <div className="lg:hidden flex items-center justify-between px-4 py-4 border-b border-border bg-surface overflow-hidden">
           <button
             onClick={() => setSidebarOpen(true)}
             className="text-text-primary p-2 hover:bg-background rounded-xl"
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-2">
+          <div className="min-w-0 flex-1 flex items-center justify-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>

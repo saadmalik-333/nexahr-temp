@@ -111,7 +111,7 @@ export default function EmployeesPage() {
           <div className="glass-card p-10 text-center text-text-secondary">No employees found</div>
         ) : (
           filtered.map(emp => (
-            <div key={emp.id} className="glass-card p-4 space-y-3">
+            <div key={emp.id} className="glass-card p-4 space-y-3 w-full">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
                   {emp.photo_url ? <img src={emp.photo_url} alt="" className="w-full h-full object-cover" /> : <span className="text-lg font-bold text-primary">{emp.full_name.charAt(0)}</span>}
@@ -122,7 +122,7 @@ export default function EmployeesPage() {
                 </div>
                 {badge(emp.status)}
               </div>
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-2 text-xs w-full">
                 <div className="bg-background rounded-lg p-2 border border-border">
                   <p className="text-text-secondary mb-0.5">Designation</p>
                   <p className="text-text-primary font-medium">{emp.designation}</p>
