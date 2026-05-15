@@ -396,40 +396,42 @@ export default function RegisterPage() {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
-            {currentStep > 1 ? (
-              <button onClick={prevStep} className="btn-secondary flex items-center gap-2">
-                <ArrowLeft className="w-4 h-4" />
-                Previous
-              </button>
-            ) : (
-              <div />
-            )}
+          <div className="mt-8 pt-6 border-t border-border">
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
+              {currentStep > 1 ? (
+                <button onClick={prevStep} className="btn-secondary flex items-center gap-2 w-full sm:w-auto justify-center">
+                  <ArrowLeft className="w-4 h-4" />
+                  Previous
+                </button>
+              ) : (
+                <div />
+              )}
 
-            {currentStep < 3 ? (
-              <button onClick={nextStep} className="btn-primary flex items-center gap-2">
-                Next
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="btn-primary flex items-center gap-2"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Submitting...
-                  </>
-                ) : (
-                  <>
-                    Submit Application
-                    <Check className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            )}
+              {currentStep < 3 ? (
+                <button onClick={nextStep} className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center">
+                  Next
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="btn-primary flex items-center gap-2 w-full sm:w-auto justify-center"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Submitting...
+                    </>
+                  ) : (
+                    <>
+                      Submit Application
+                      <Check className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
