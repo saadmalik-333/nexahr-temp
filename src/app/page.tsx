@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Shield, ClipboardList, CreditCard, ChevronRight, Sparkles } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Shield, ClipboardList, CreditCard, ChevronRight, Sparkles, Menu, X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function LandingPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -97,27 +98,47 @@ export default function LandingPage() {
       <div className="gradient-bg absolute inset-0 z-0" />
 
       {/* Navigation */}
-      <nav className="relative z-10 flex items-center justify-between px-6 md:px-12 py-5">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+      <nav className="relative z-20 px-4 md:px-12 py-4">
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+            <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+              <Sparkles className="w-4 h-4 md:w-5 md:h-5 text-white" />
+            </div>
+            <span className="font-heading text-lg md:text-xl font-bold text-text-primary">NexaHR</span>
+          </Link>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/portal/login" className="px-4 py-2 text-sm text-text-secondary hover:text-text-primary transition-colors">Employee Portal</Link>
+            <Link href="/admin/login" className="px-5 py-2.5 text-sm border border-border rounded-xl text-text-primary hover:bg-surface transition-all">Manager Login</Link>
           </div>
-          <span className="font-heading text-xl font-bold text-text-primary">NexaHR</span>
+
+          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-xl border border-border bg-surface/50 backdrop-blur-sm text-text-primary hover:bg-surface transition-all">
+            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/portal/login"
-            className="px-3 py-2 text-xs md:text-sm text-text-secondary hover:text-text-primary transition-colors whitespace-nowrap"
-          >
-            Employee Portal
-          </Link>
-          <Link
-            href="/admin/login"
-            className="px-3 md:px-5 py-2 md:py-2.5 text-xs md:text-sm border border-border rounded-xl text-text-primary hover:bg-surface transition-all whitespace-nowrap"
-          >
-            Manager Login
-          </Link>
-        </div>
+
+        {menuOpen && (
+          <div className="md:hidden mt-3 rounded-2xl border border-border bg-surface/90 backdrop-blur-xl overflow-hidden shadow-xl shadow-black/30">
+            <Link href="/portal/login" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-primary/10 transition-all border-b border-border">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <ClipboardList className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-text-primary">Employee Portal</p>
+                <p className="text-xs text-text-secondary">Access your dashboard</p>
+              </div>
+            </Link>
+            <Link href="/admin/login" onClick={() => setMenuOpen(false)} className="flex items-center gap-3 px-5 py-4 hover:bg-primary/10 transition-all">
+              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Shield className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-text-primary">Manager Login</p>
+                <p className="text-xs text-text-secondary">Admin portal access</p>
+              </div>
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
