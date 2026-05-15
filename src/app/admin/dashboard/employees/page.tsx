@@ -106,7 +106,64 @@ export default function EmployeesPage() {
         })}
       </div>
 
-      <div className="glass-card overflow-hidden">
+      <div className="block md:hidden space-y-3">
+        {filtered.length === 0 ? (
+          <div className="glass-card p-10 text-center text-text-secondary">No employees found</div>
+        ) : (
+          filtered.map(emp => (
+            <div key={emp.id} className="glass-card p-4 space-y-3">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {emp.photo_url ? <img src={emp.photo_url} alt="" className="w-full h-full object-cover" /> : <span className="text-lg font-bold text-primary">{emp.full_name.charAt(0)}</span>}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-text-primary truncate">{emp.full_name}</p>
+                  <p className="text-xs text-text-secondary truncate">{emp.email}</p>
+                </div>
+                {badge(emp.status)}
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="bg-background rounded-lg p-2 border border-border">
+                  <p className="text-text-secondary mb-0.5">Designation</p>
+                  <p className="text-text-primary font-medium">{emp.designation}</p>
+                </div>
+                <div className="bg-background rounded-lg p-2 border border-border">
+                  <p className="text-text-secondary mb-0.5">Department</p>
+                  <p className="text-text-primary font-medium">{emp.department}</p>
+                </div>
+                <div className="bg-background rounded-lg p-2 border border-border">
+                  <p className="text-text-secondary mb-0.5">AI Score</p>
+                  <p className={`font-semibold ${(emp.ai_validation_score || 0) >= 70 ? 'text-success' : (emp.ai_validation_score || 0) >= 40 ? 'text-warning' : 'text-danger'}`}>{emp.ai_validation_score || '—'}</p>
+                </div>
+                <div className="bg-background rounded-lg p-2 border border-border">
+                  <p className="text-text-secondary mb-0.5">Date</p>
+                  <p className="text-text-primary font-medium">{emp.join_date ? formatDate(emp.join_date) : formatDate(emp.created_at)}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <button onClick={() => setSelectedEmployee(emp)} className="flex-1 py-2 rounded-lg bg-primary/10 text-primary hover:bg-primary/20 transition-colors text-xs font-medium flex items-center justify-center gap-1">
+                  <Eye className="w-3.5 h-3.5" />View
+                </button>
+                {emp.status === 'pending' && (<>
+                  <button onClick={() => handleAction('approve', emp.id)} disabled={!!actionLoading} className="flex-1 py-2 rounded-lg bg-success/10 text-success hover:bg-success/20 transition-colors text-xs font-medium flex items-center justify-center gap-1">
+                    {actionLoading === emp.id ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}Approve
+                  </button>
+                  <button onClick={() => handleAction('decline', emp.id)} disabled={!!actionLoading} className="flex-1 py-2 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition-colors text-xs font-medium flex items-center justify-center gap-1">
+                    <X className="w-3.5 h-3.5" />Decline
+                  </button>
+                </>)}
+                {emp.status === 'approved' && (
+                  <button onClick={() => handleAction('terminate', emp.id)} disabled={!!actionLoading} className="flex-1 py-2 rounded-lg bg-danger/10 text-danger hover:bg-danger/20 transition-colors text-xs font-medium flex items-center justify-center gap-1">
+                    <Ban className="w-3.5 h-3.5" />Terminate
+                  </button>
+                )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="glass-card overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
