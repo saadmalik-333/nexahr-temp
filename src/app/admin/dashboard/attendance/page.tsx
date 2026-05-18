@@ -105,44 +105,77 @@ export default function AttendancePage() {
       {employees.length === 0 ? (
         <div className="glass-card p-16 text-center"><Users className="w-12 h-12 text-text-secondary/30 mx-auto mb-3" /><p className="text-text-secondary">No approved employees found</p></div>
       ) : (
-        <div className="glass-card overflow-hidden">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-border bg-background/50">
-                <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Employee</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ID</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Department</th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employees.map(emp => (
-                <tr key={emp.id} className="table-row">
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
-                        {emp.photo_url ? <img src={emp.photo_url} alt="" className="w-full h-full object-cover" /> : <span className="text-sm font-bold text-primary">{emp.full_name.charAt(0)}</span>}
-                      </div>
-                      <div><p className="text-sm font-medium text-text-primary">{emp.full_name}</p><p className="text-xs text-text-secondary">{emp.designation}</p></div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-text-secondary font-mono">{emp.employee_id}</td>
-                  <td className="px-6 py-4 text-sm text-text-secondary">{emp.department}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      {statuses.map(s => (
-                        <button key={s} onClick={() => setStatus(emp.id, s)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize ${attendance[emp.id] === s ? statusColors[s] : 'bg-surface border-border text-text-secondary hover:border-primary/30'}`}>
-                          {s}
-                        </button>
-                      ))}
-                    </div>
-                  </td>
+        <>
+          {/* Mobile Card View */}
+          <div className="block md:hidden space-y-3">
+            {employees.map(emp => (
+              <div key={emp.id} className="glass-card p-4 space-y-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                    {emp.photo_url ? <img src={emp.photo_url} alt="" className="w-full h-full object-cover" /> : <span className="text-lg font-bold text-primary">{emp.full_name.charAt(0)}</span>}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-text-primary truncate">{emp.full_name}</p>
+                    <p className="text-xs text-text-secondary">{emp.designation}</p>
+                  </div>
+                  <span className="text-xs text-text-secondary font-mono flex-shrink-0">{emp.employee_id}</span>
+                </div>
+                <div className="bg-background rounded-lg p-2 border border-border">
+                  <p className="text-xs text-text-secondary mb-1">Department</p>
+                  <p className="text-sm text-text-primary font-medium">{emp.department}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {statuses.map(s => (
+                    <button key={s} onClick={() => setStatus(emp.id, s)}
+                      className={`py-2 rounded-lg text-xs font-medium border transition-all capitalize ${attendance[emp.id] === s ? statusColors[s] : 'bg-surface border-border text-text-secondary hover:border-primary/30'}`}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <div className="hidden md:block glass-card overflow-hidden">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-border bg-background/50">
+                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Employee</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ID</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Department</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {employees.map(emp => (
+                  <tr key={emp.id} className="table-row">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center overflow-hidden flex-shrink-0">
+                          {emp.photo_url ? <img src={emp.photo_url} alt="" className="w-full h-full object-cover" /> : <span className="text-sm font-bold text-primary">{emp.full_name.charAt(0)}</span>}
+                        </div>
+                        <div><p className="text-sm font-medium text-text-primary">{emp.full_name}</p><p className="text-xs text-text-secondary">{emp.designation}</p></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-sm text-text-secondary font-mono">{emp.employee_id}</td>
+                    <td className="px-6 py-4 text-sm text-text-secondary">{emp.department}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2">
+                        {statuses.map(s => (
+                          <button key={s} onClick={() => setStatus(emp.id, s)}
+                            className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize ${attendance[emp.id] === s ? statusColors[s] : 'bg-surface border-border text-text-secondary hover:border-primary/30'}`}>
+                            {s}
+                          </button>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );
