@@ -35,7 +35,7 @@ export default function AdminDashboardLayout({
   };
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-background flex overflow-hidden w-full max-w-full">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -100,7 +100,7 @@ export default function AdminDashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1 min-h-screen min-w-0 overflow-hidden w-0">
         {/* Top bar for mobile */}
         <div className="lg:hidden flex items-center justify-between px-4 py-4 border-b border-border bg-surface overflow-hidden">
           <button
@@ -118,7 +118,7 @@ export default function AdminDashboardLayout({
           <div className="w-9" />
         </div>
 
-        <div className="p-6 lg:p-8">{children}</div>
+        <div className="p-4 lg:p-8 w-full max-w-full overflow-hidden">{children}</div>
       </main>
     </div>
   );
