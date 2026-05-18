@@ -109,11 +109,11 @@ export default function AdminDashboardLayout({
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="min-w-0 flex-1 flex items-center justify-center gap-2">
+          <div className="min-w-0 flex-1 flex items-center justify-center gap-2 overflow-hidden">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
               <Sparkles className="w-4 h-4 text-white" />
             </div>
-            <span className="font-heading text-lg font-bold text-text-primary">NexaHR</span>
+            <span className="font-heading text-lg font-bold text-text-primary truncate">NexaHR</span>
           </div>
           <div className="w-9" />
         </div>
