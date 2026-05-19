@@ -5,9 +5,20 @@ import AuthProvider from "@/components/providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "NexaHR — Streamline Your Workforce Management",
-  description:
-    "From hiring to ID cards — NexaHR handles it all. A modern HR management system for employee onboarding, attendance tracking, and digital ID card generation.",
+  description: "From hiring to ID cards — NexaHR handles it all. A modern HR management system for employee onboarding, attendance tracking, and digital ID card generation.",
   keywords: ["HR management", "employee onboarding", "attendance tracking", "NexaHR"],
+  openGraph: {
+    title: "NexaHR — Streamline Your Workforce Management",
+    description: "From hiring to ID cards — NexaHR handles it all. Smart onboarding, real-time attendance, and digital identity management in one powerful platform.",
+    url: "https://nexahr.vercel.app",
+    siteName: "NexaHR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "NexaHR — Streamline Your Workforce Management",
+    description: "From hiring to ID cards — NexaHR handles it all. Smart onboarding, real-time attendance, and digital identity management in one powerful platform.",
+  },
 };
 
 export const viewport = {
