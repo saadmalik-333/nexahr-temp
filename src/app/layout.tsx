@@ -15,6 +15,7 @@ export const viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  scrollBehavior: 'smooth',
 };
 
 export default function RootLayout({
